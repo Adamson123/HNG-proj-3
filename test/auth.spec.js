@@ -54,7 +54,7 @@ describe("Auth Endpoints", () => {
                 "email",
                 "password",
             ];
-            //running test for each required field by making them empty and seeing whether we will get an error with status code 422
+            /* making request for each field that are required with them being empty */
             for (const field of requiredFields) {
                 const body = {
                     firstName: "blu",
