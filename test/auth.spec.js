@@ -17,7 +17,7 @@ describe("Auth Endpoints", () => {
     });
 
     describe("POST /auth/register", () => {
-        it("Should register user successfully with default organisation", async () => {
+        it("It Should Register User Successfully with Default Organisation", async () => {
             const res = await request(app).post("/auth/register").send({
                 firstName: "blu",
                 lastName: "heart",
@@ -73,7 +73,7 @@ describe("Auth Endpoints", () => {
             }
         });
 
-        it("Should fail if email has already beem used", async () => {
+        it("It Should Fail if there's duplicate email", async () => {
             await User.create({
                 userId: "USER_1",
                 firstName: "blu",
@@ -124,7 +124,7 @@ describe("Auth Endpoints", () => {
             expect(res.body.data.accessToken).toBeDefined();
         });
 
-        it("Should fail if required fields are empty", async () => {
+        it("It Should Fail If Required Fields Are Missing", async () => {
             const requiredFields = ["email", "password"];
             for (const field of requiredFields) {
                 const body = {
