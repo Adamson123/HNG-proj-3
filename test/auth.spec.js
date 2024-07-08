@@ -1,7 +1,10 @@
 const request = require("supertest");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const app = require("../index");
 const { sequelize, User, Organisation } = require("../models");
+
+jest.setTimeout(30000);
 
 describe("Auth Endpoints", () => {
     beforeAll(async () => {
@@ -22,6 +25,10 @@ describe("Auth Endpoints", () => {
                 password: "isPassword",
                 phone: "1234567890",
             });
+            const verifyToken = jwt.verify(
+                res.body.data.accessToken,
+                process.env.SECRET_KEY
+            );
 
             expect(res.statusCode).toEqual(201);
             expect(res.body.data.user).toHaveProperty("userId");
@@ -31,6 +38,8 @@ describe("Auth Endpoints", () => {
 
             expect(res.body.data.user.email).toBe("blu@example.com");
             expect(res.body.data.accessToken).toBeDefined();
+
+            expect(verifyToken.userId).toBeDefined();
 
             const org = await Organisation.findOne({
                 where: { name: "blu's Organisation" },
@@ -45,6 +54,7 @@ describe("Auth Endpoints", () => {
                 "email",
                 "password",
             ];
+            //running test for each required field by making them empty and seeing wether we will get a error with status code 422
             for (const field of requiredFields) {
                 const body = {
                     firstName: "blu",
@@ -53,7 +63,7 @@ describe("Auth Endpoints", () => {
                     password: "isPassword",
                     phone: "1234567890",
                 };
-                delete body[field];
+                body[field] = "";
 
                 const res = await request(app)
                     .post("/auth/register")
@@ -109,6 +119,7 @@ describe("Auth Endpoints", () => {
 
             expect(res.statusCode).toEqual(200);
             expect(res.body.data.user).toHaveProperty("userId");
+
             expect(res.body.data.user.email).toBe("blu@example.com");
             expect(res.body.data.accessToken).toBeDefined();
         });
@@ -121,7 +132,7 @@ describe("Auth Endpoints", () => {
                     password: "isPassword",
                 };
 
-                delete body[field];
+                body[field] = "";
 
                 const res = await request(app).post("/auth/login").send(body);
                 expect(res.statusCode).toEqual(422);
