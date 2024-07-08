@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1720443717690" clover="3.2.0">
-  <project timestamp="1720443717690" name="All files">
+<coverage generated="1720445257107" clover="3.2.0">
+  <project timestamp="1720445257107" name="All files">
     <metrics statements="180" coveredstatements="112" conditionals="38" coveredconditionals="17" methods="23" coveredmethods="15" elements="241" coveredelements="144" complexity="0" loc="180" ncloc="180" packages="3" files="9" classes="9"/>
     <package name="HNG proj 3">
       <metrics statements="43" coveredstatements="27" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="0"/>
