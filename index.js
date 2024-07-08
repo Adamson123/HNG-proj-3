@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
     res.send("welcome! welcome!! welcome!!!");
 });
 
-app.use("/api/auth", authRouter);
+app.use("/auth", authRouter);
 app.get("/api/users/:id", authenticateUser, getSingleUser);
 app.use("/api/organisation", authenticateUser, orgRouter);
 
