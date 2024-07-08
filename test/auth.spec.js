@@ -16,9 +16,9 @@ describe("Auth Endpoints", () => {
         await Organisation.destroy({ where: {} });
     });
 
-    describe("POST /auth/register", () => {
+    describe("POST /api/auth/register", () => {
         it("It Should Register User Successfully with Default Organisation", async () => {
-            const res = await request(app).post("/auth/register").send({
+            const res = await request(app).post("/api/auth/register").send({
                 firstName: "blu",
                 lastName: "heart",
                 email: "blu@example.com",
@@ -66,7 +66,7 @@ describe("Auth Endpoints", () => {
                 body[field] = "";
 
                 const res = await request(app)
-                    .post("/auth/register")
+                    .post("/api/auth/register")
                     .send(body);
                 expect(res.statusCode).toEqual(422);
                 expect(res.body.errors[0].field).toBe(field);
@@ -83,7 +83,7 @@ describe("Auth Endpoints", () => {
                 phone: "1234567890",
             });
 
-            const res = await request(app).post("/auth/register").send({
+            const res = await request(app).post("/api/auth/register").send({
                 firstName: "Jane",
                 lastName: "heart",
                 email: "blu@example.com",
@@ -96,7 +96,7 @@ describe("Auth Endpoints", () => {
         });
     });
 
-    describe("POST /auth/login", () => {
+    describe("POST /api/auth/login", () => {
         beforeEach(async () => {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash("isPassword", salt);
@@ -111,7 +111,7 @@ describe("Auth Endpoints", () => {
         });
 
         it("Should log the user in successfully", async () => {
-            const res = await request(app).post("/auth/login").send({
+            const res = await request(app).post("/api/auth/login").send({
                 email: "blu@example.com",
 
                 password: "isPassword",
@@ -134,14 +134,16 @@ describe("Auth Endpoints", () => {
 
                 body[field] = "";
 
-                const res = await request(app).post("/auth/login").send(body);
+                const res = await request(app)
+                    .post("/api/auth/login")
+                    .send(body);
                 expect(res.statusCode).toEqual(422);
                 expect(res.body.errors[0].field).toBe(field);
             }
         });
 
         it("Should fail if user with email does not exist", async () => {
-            const res = await request(app).post("/auth/login").send({
+            const res = await request(app).post("/api/auth/login").send({
                 email: "black@example.com",
 
                 password: "isPassword",
@@ -151,7 +153,7 @@ describe("Auth Endpoints", () => {
         });
 
         it("Should fail if password is incorrect", async () => {
-            const res = await request(app).post("/auth/login").send({
+            const res = await request(app).post("/api/auth/login").send({
                 email: "blu@example.com",
                 password: "wrongpassword",
             });
