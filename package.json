@@ -14,7 +14,7 @@
     "scripts": {
         "dev": "nodemon server.js",
         "start": "node server.js",
-        "test": "jest --verbose --forceExit --watchAll --maxWorkers=1"
+        "test": "jest"
     },
     "author": "",
     "license": "ISC",
