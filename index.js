@@ -16,6 +16,7 @@ const {
 const app = express();
 
 app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const authRouter = express.Router();
@@ -36,5 +37,9 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.get("/api/users/:id", authenticateUser, getSingleUser);
 app.use("/api/organisation", authenticateUser, orgRouter);
+
+app.use((req, res) => {
+    res.status(404).json({ msg: "404 not found" });
+});
 
 module.exports = app;
