@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.get("/api/users/:id", authenticateUser, getSingleUser);
-app.use("/api/organisation", authenticateUser, orgRouter);
+app.use("/api/organisations", authenticateUser, orgRouter);
 
 app.use((req, res) => {
     res.status(404).json({ msg: "404 not found" });
